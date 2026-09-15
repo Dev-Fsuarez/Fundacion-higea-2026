@@ -46,7 +46,7 @@ import botonBlue from '../assets/boton_blue.png';
         </a>
         <nav class="nav-links">
           <div class="nav-item has-megamenu">
-            <a href="#nosotros">NOSOTROS</a>
+            <a href="#nosotros" class="mobile-accordion-trigger">NOSOTROS <span class="accordion-arrow">▾</span></a>
             <div class="megamenu">
               <div class="megamenu-left" style="width: 250px !important;">
                 <span class="megamenu-title">NOSOTROS</span>
@@ -61,9 +61,18 @@ import botonBlue from '../assets/boton_blue.png';
                 <a href="#impacto">IMPACTO</a>
               </div>
             </div>
+            <div class="mobile-submenu">
+              <a href="#quienes-somos">QUIÉNES SOMOS</a>
+              <a href="#mision">MISIÓN Y VISIÓN</a>
+              <a href="#historia">HISTORIA</a>
+              <a href="#valores">VALORES FUNDAMENTALES</a>
+              <a href="#objetivos">OBJETIVOS</a>
+              <a href="#equipo">EQUIPO Y LIDERAZGO</a>
+              <a href="#impacto">IMPACTO</a>
+            </div>
           </div>
           <div class="nav-item has-megamenu">
-            <a href="#servicios">SERVICIOS</a>
+            <a href="#servicios" class="mobile-accordion-trigger">SERVICIOS <span class="accordion-arrow">▾</span></a>
             <div class="megamenu">
               <div class="megamenu-left" style="width: 250px !important;">
                 <span class="megamenu-title">SERVICIOS</span>
@@ -77,9 +86,17 @@ import botonBlue from '../assets/boton_blue.png';
                 <a href="#consultas">CONSULTAS MÉDICAS</a>
               </div>
             </div>
+            <div class="mobile-submenu">
+              <a href="#diagnostico">DIAGNÓSTICO POR IMÁGENES</a>
+              <a href="#tratamientos">SALA DE TRATAMIENTOS</a>
+              <a href="#especiales">ESTUDIOS ESPECIALES</a>
+              <a href="#farmacia">FARMACIA</a>
+              <a href="#laboratorio">LABORATORIO</a>
+              <a href="#consultas">CONSULTAS MÉDICAS</a>
+            </div>
           </div>
           <div class="nav-item has-megamenu">
-            <a href="#programas">PROGRAMAS</a>
+            <a href="#programas" class="mobile-accordion-trigger">PROGRAMAS <span class="accordion-arrow">▾</span></a>
             <div class="megamenu">
               <div class="megamenu-left" style="width: 250px !important;">
                 <span class="megamenu-title">PROGRAMAS</span>
@@ -89,6 +106,11 @@ import botonBlue from '../assets/boton_blue.png';
                 <a href="#oportunidad-higea">OPORTUNIDAD HIGEA</a>
                 <a href="#amigos-voluntariado">AMIGOS DEL VOLUNTARIADO</a>
               </div>
+            </div>
+            <div class="mobile-submenu">
+              <a href="#proyecto-grata">PROYECTO GRATA</a>
+              <a href="#oportunidad-higea">OPORTUNIDAD HIGEA</a>
+              <a href="#amigos-voluntariado">AMIGOS DEL VOLUNTARIADO</a>
             </div>
           </div>
           <div class="nav-item">
@@ -104,7 +126,15 @@ import botonBlue from '../assets/boton_blue.png';
             <a href="#para-pacientes">PARA PACIENTES</a>
           </div>
         </nav>
+        <!-- Hamburger button (visible on mobile only) -->
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Abrir menú">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </div>
+      <!-- Overlay background -->
+      <div class="nav-overlay" id="navOverlay"></div>
     </header>
 
     <!-- HERO SECTION -->
@@ -1270,19 +1300,274 @@ import botonBlue from '../assets/boton_blue.png';
     opacity: 0.85;
   }
 
-  /* RESPONSIVE DESIGN */
-  @media (max-width: 768px) {
-    .nav-links { display: none; }
-    .hero h1 { font-size: 1.725rem; }
+  /* ============================================================
+     HAMBURGER BUTTON
+  ============================================================ */
+  .hamburger-btn {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    margin-left: auto;
+    z-index: 301;
+    position: relative;
+  }
+
+  .hamburger-btn span {
+    display: block;
+    width: 26px;
+    height: 2px;
+    background-color: var(--pantone-300c);
+    border-radius: 2px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    transform-origin: center;
+  }
+
+  /* X animation when open */
+  .hamburger-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger-btn.open span:nth-child(2) { opacity: 0; }
+  .hamburger-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* ============================================================
+     NAV OVERLAY (dark background)
+  ============================================================ */
+  .nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 299;
+  }
+
+  .nav-overlay.open { display: block; }
+
+  /* ============================================================
+     MOBILE SUBMENU (accordion, hidden by default)
+  ============================================================ */
+  .mobile-submenu {
+    display: none;
+    flex-direction: column;
+    background-color: rgba(0, 93, 181, 0.08);
+    border-left: 3px solid var(--secondary-cyan);
+    margin: 0 0 4px 0;
+  }
+
+  .mobile-submenu a {
+    padding: 10px 20px 10px 24px;
+    color: var(--dark-blue);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid rgba(0,93,181,0.08);
+    display: block;
+  }
+
+  .mobile-submenu.open { display: flex; }
+
+  /* Accordion arrow rotation */
+  .accordion-arrow {
+    display: none;
+    font-size: 0.75rem;
+    transition: transform 0.25s ease;
+    margin-left: 4px;
+  }
+
+  /* ============================================================
+     RESPONSIVE — TABLET (≤ 1024px)
+  ============================================================ */
+  @media (max-width: 1024px) {
+    .logo-img { padding-left: 24px; height: 55px; }
+    .nav-links { margin-left: 40px; gap: 0; }
+    .nav-item > a { font-size: 0.72rem; padding: 12px 9px; }
+    .hero h1 { font-size: 2rem; }
+    .hero-badge span { font-size: 1rem; }
     .category-grid { grid-template-columns: repeat(2, 1fr); }
-    .metrics-grid { grid-template-columns: 1fr; gap: 20px; padding-left: 0; text-align: center; }
-    .services-grid { grid-template-columns: repeat(2, 1fr); }
-    .info-grid { grid-template-columns: 1fr; }
-    .info-actions { justify-content: center; }
+    .services-grid { grid-template-columns: repeat(3, 1fr); }
+    .metrics-grid { gap: 20px; }
+  }
+
+  /* ============================================================
+     RESPONSIVE — MOBILE (≤ 768px)
+  ============================================================ */
+  @media (max-width: 768px) {
+
+    /* --- Navbar --- */
+    .hamburger-btn { display: flex; }
+    .accordion-arrow { display: inline; }
+
+    .nav-links {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 85%;
+      max-width: 340px;
+      height: 100vh;
+      background: #ffffff;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: flex-start;
+      padding: 80px 0 30px 0;
+      margin: 0;
+      gap: 0;
+      z-index: 300;
+      overflow-y: auto;
+      transition: right 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: -4px 0 24px rgba(0,70,140,0.15);
+    }
+
+    .nav-links.open { right: 0; }
+
+    /* Hide desktop megamenu on mobile */
+    .megamenu { display: none !important; }
+
+    /* Nav items become full-width rows */
+    .nav-item { position: static; width: 100%; }
+
+    .nav-item > a {
+      font-size: 0.875rem;
+      padding: 14px 20px;
+      border-bottom: 1px solid rgba(0,93,181,0.08);
+      color: var(--dark-blue);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-item:hover > a {
+      background-color: rgba(0,93,181,0.06);
+      color: var(--dark-blue);
+    }
+
+    .has-megamenu:hover > a {
+      background-color: rgba(0,93,181,0.06);
+      color: var(--dark-blue);
+    }
+
+    /* --- Hero --- */
+    .hero { height: 75vh; min-height: 400px; }
+    .hero h1 { font-size: 1.7rem; line-height: 1.2; }
+    .hero-badge span { font-size: 0.95rem; padding: 6px 14px; }
+    .hero-buttons { flex-direction: column; align-items: center; gap: 12px; }
+    .btn-hero-white, .btn-hero-red {
+      width: 200px;
+      background-size: 100% 100%;
+    }
+
+    /* --- Category Grid → 2 columns --- */
+    .category-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .category-card { height: 160px; }
+
+    /* --- Metrics → 2 columns --- */
+    .metrics-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      padding-left: 0;
+      text-align: center;
+    }
+
+    /* --- Services → 2 columns --- */
+    .services-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+    /* --- Info section → single column --- */
+    .info-grid { grid-template-columns: 1fr; gap: 16px; }
+    .info-actions { flex-direction: column; align-items: center; gap: 12px; }
     .info-box-top { flex-direction: column; align-items: center; text-align: center; }
-    .testimonials-grid { grid-template-columns: 1fr; }
-    .partners-row { flex-wrap: wrap; gap: 15px; }
+    .btn-img-blue { width: 180px; }
+
+    /* --- Partners --- */
+    .partners-row { flex-wrap: wrap; gap: 15px; justify-content: center; }
+    .partner-img { height: 40px; }
+
+    /* --- Newsletter --- */
     .newsletter-form { flex-direction: column; padding: 0 20px; }
+    .newsletter-footer h2 { font-size: 1.25rem; }
+
+    /* --- Logo --- */
+    .logo-img { height: 48px; padding-left: 16px; }
+  }
+
+  /* ============================================================
+     RESPONSIVE — MOBILE XS (≤ 480px)
+  ============================================================ */
+  @media (max-width: 480px) {
+    .hero h1 { font-size: 1.4rem; }
+    .category-grid { grid-template-columns: 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+    .metrics-grid { grid-template-columns: 1fr; }
+    .section-title { font-size: 1.1rem; }
+    .logo-img { height: 42px; }
+    .hero { height: 65vh; }
   }
 </style>
 
+<script>
+  // ============================================================
+  // HAMBURGER MENU — Mobile drawer toggle
+  // ============================================================
+  document.addEventListener('DOMContentLoaded', () => {
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const navLinks = document.getElementById('navLinks');
+    const navOverlay = document.getElementById('navOverlay');
+
+    function openMenu() {
+      hamburgerBtn.classList.add('open');
+      navLinks.classList.add('open');
+      navOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+      hamburgerBtn.classList.remove('open');
+      navLinks.classList.remove('open');
+      navOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    if (hamburgerBtn) {
+      hamburgerBtn.addEventListener('click', () => {
+        hamburgerBtn.classList.contains('open') ? closeMenu() : openMenu();
+      });
+    }
+
+    if (navOverlay) {
+      navOverlay.addEventListener('click', closeMenu);
+    }
+
+    // Close menu when any nav link is clicked
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+
+    // ============================================================
+    // ACCORDION — Mobile submenu toggle
+    // ============================================================
+    document.querySelectorAll('.mobile-accordion-trigger').forEach(trigger => {
+      trigger.addEventListener('click', (e) => {
+        // Only activate accordion on mobile
+        if (window.innerWidth > 768) return;
+
+        e.preventDefault();
+        const parent = trigger.closest('.nav-item');
+        const submenu = parent.querySelector('.mobile-submenu');
+        const arrow = trigger.querySelector('.accordion-arrow');
+
+        const isOpen = submenu.classList.contains('open');
+
+        // Close all other open submenus
+        document.querySelectorAll('.mobile-submenu.open').forEach(sm => sm.classList.remove('open'));
+        document.querySelectorAll('.accordion-arrow').forEach(a => a.style.transform = '');
+
+        if (!isOpen) {
+          submenu.classList.add('open');
+          arrow.style.transform = 'rotate(180deg)';
+        }
+      });
+    });
+  });
+</script>
