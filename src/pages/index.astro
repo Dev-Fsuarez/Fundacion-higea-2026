@@ -452,6 +452,7 @@ import botonBlue from '../assets/boton_blue.png';
 
   html {
     font-size: 14px; /* Base scale: ~12.5% smaller than browser default 16px */
+    overflow-x: hidden;
   }
 
   * {
@@ -466,6 +467,7 @@ import botonBlue from '../assets/boton_blue.png';
     background-color: #ffffff;
     line-height: 1.5;
     letter-spacing: 1px;
+    overflow-x: hidden;
   }
 
   .container {
@@ -583,7 +585,7 @@ import botonBlue from '../assets/boton_blue.png';
 
   .nav-container {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: flex-end;
     padding-bottom: 2px;
   }
@@ -599,7 +601,7 @@ import botonBlue from '../assets/boton_blue.png';
     height: 70px;
     width: auto;
     object-fit: contain;
-    padding-left: 60px;
+    padding-left: 0;
   }
 
   .nav-links {
@@ -607,7 +609,7 @@ import botonBlue from '../assets/boton_blue.png';
     align-items: flex-end;
     gap: 0;
     padding-bottom: 0;
-    margin-left: 130px;
+    margin-left: 0;
   }
 
   .nav-item.has-dropdown {
@@ -625,7 +627,7 @@ import botonBlue from '../assets/boton_blue.png';
     font-size: 0.90rem;
     font-weight: 700;
     letter-spacing: 0.5px;
-    padding: 12px 14px;
+    padding: 12px 10px;
     transition: background-color 0.2s ease, color 0.2s ease;
     white-space: nowrap;
   }
