@@ -196,19 +196,19 @@ import botonBlue from '../assets/boton_blue.png';
         <div class="metrics-grid">
           <div class="metric-item">
             <div class="metric-number">
-              <img src={cruzRoja.src} class="plus" alt="Cruz" />900
+              <img src={cruzRoja.src} class="plus" alt="Cruz" /><span class="counter" data-target="900">0</span>
             </div>
             <p class="metric-label" >Pacientes adultos<br />atendidos en 2025</p>
           </div>
           <div class="metric-item">
             <div class="metric-number">
-              <img src={cruzRoja.src} class="plus" alt="Cruz" />200
+              <img src={cruzRoja.src} class="plus" alt="Cruz" /><span class="counter" data-target="200">0</span>
             </div>
             <p class="metric-label">Pacientes infantiles<br />atendidos en 2025</p>
           </div>
           <div class="metric-item">
             <div class="metric-number">
-              <img src={cruzRoja.src} class="plus" alt="Cruz" />500
+              <img src={cruzRoja.src} class="plus" alt="Cruz" /><span class="counter" data-target="500">0</span>
             </div>
             <p class="metric-label">Ayudas brindadas<br />por el Voluntariado</p>
           </div>
@@ -298,8 +298,8 @@ import botonBlue from '../assets/boton_blue.png';
               </div>
             </div>
             <div class="info-actions">
-              <a href="#ubicacion" class="btn-img-blue" style={`background-image: url('${botonBlue.src}')`}>UBICACIÓN</a>
-              <a href="#contactos" class="btn-img-blue" style={`background-image: url('${botonBlue.src}')`}>CONTACTOS</a>
+              <a href="#ubicacion" class="btn-img-blue" style={`--bg-normal: url('${botonBlue.src}'); --bg-hover: url('${botonRed.src}');`}>UBICACIÓN</a>
+              <a href="#contactos" class="btn-img-blue" style={`--bg-normal: url('${botonBlue.src}'); --bg-hover: url('${botonRed.src}');`}>CONTACTOS</a>
             </div>
           </div>
 
@@ -318,8 +318,8 @@ import botonBlue from '../assets/boton_blue.png';
                 </p>
               </div>
             </div>
-            <div class="info-actions">
-              <a href="#precios" class="btn-img-blue" style={`background-image: url('${botonBlue.src}')`}>PRECIOS</a>
+            <div class="info-actions info-actions-right">
+              <a href="#precios" class="btn-img-blue" style={`--bg-normal: url('${botonBlue.src}'); --bg-hover: url('${botonRed.src}');`}>PRECIOS</a>
             </div>
           </div>
         </div>
@@ -435,7 +435,6 @@ import botonBlue from '../assets/boton_blue.png';
 </html>
 
 <style>
-  /* BRAND PALETTE & TYPOGRAPHY SPECIFICATIONS */
   :root {
     --pantone-300c: #005db5; /* Azul: #005db5 */
     --pantone-485c: #c22a22; /* Rojo: #c22a22 */
@@ -444,7 +443,7 @@ import botonBlue from '../assets/boton_blue.png';
     --text-dark: #5b5b5f; /* Textos: #5b5b5f */
     
     --primary-blue: var(--pantone-300c);
-    --dark-blue: #00468b;
+    --dark-blue: var(--pantone-300c); /* Changed from #00468b to official pantone */
     --accent-red: var(--pantone-485c);
     --accent-cyan: var(--secondary-cyan);
     --font-family: 'Gotham', 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -827,7 +826,11 @@ import botonBlue from '../assets/boton_blue.png';
     background-repeat: no-repeat;
     background-color: transparent;
     border: none;
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.2s ease-in-out, background-image 0.2s ease-in-out;
+  }
+
+  .btn-img-blue {
+    background-image: var(--bg-normal);
   }
 
   .btn-hero-white, .btn-hero-red {
@@ -837,8 +840,13 @@ import botonBlue from '../assets/boton_blue.png';
     color: #ffffff;
   }
 
-  .btn-hero-white:hover, .btn-hero-red:hover, .btn-img-blue:hover {
+  .btn-hero-white:hover, .btn-hero-red:hover {
     transform: translateY(-2px);
+  }
+
+  .btn-img-blue:hover {
+    transform: translateY(-2px);
+    background-image: var(--bg-hover) !important;
   }
 
   /* CATEGORIES (4 CARDS) */
@@ -1098,6 +1106,7 @@ import botonBlue from '../assets/boton_blue.png';
   .info-box-col {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     gap: 15px;
   }
 
@@ -1144,7 +1153,7 @@ import botonBlue from '../assets/boton_blue.png';
     font-size: 1.075rem;
     color: var(--text-dark);
     line-height: 1.4;
-    font-weight: 700;
+    font-weight: 400; /* Removed bold as requested */
     margin-bottom: 0;
   }
 
@@ -1159,6 +1168,10 @@ import botonBlue from '../assets/boton_blue.png';
     display: flex;
     gap: 15px;
     margin-top: 10px;
+  }
+
+  .info-actions-right {
+    margin-left: 88px; /* 68px (icon width) + 20px (gap) to align with text */
   }
 
   /* TESTIMONIALS & PARTNERS */
@@ -1479,6 +1492,7 @@ import botonBlue from '../assets/boton_blue.png';
     /* --- Info section → single column --- */
     .info-grid { grid-template-columns: 1fr; gap: 16px; }
     .info-actions { flex-direction: column; align-items: center; gap: 12px; }
+    .info-actions-right { margin-left: 0; }
     .info-box-top { flex-direction: column; align-items: center; text-align: center; }
     .btn-img-blue { width: 180px; }
 
@@ -1571,5 +1585,44 @@ import botonBlue from '../assets/boton_blue.png';
         }
       });
     });
+
+    // ============================================================
+    // NUMBER COUNTER ANIMATION
+    // ============================================================
+    const counters = document.querySelectorAll('.counter');
+    const speed = 200; // The lower the slower
+
+    const animateCounters = (entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const counter = entry.target;
+          const target = +counter.getAttribute('data-target');
+          
+          const updateCount = () => {
+            const count = +counter.innerText;
+            const inc = target / speed;
+
+            if (count < target) {
+              counter.innerText = Math.ceil(count + inc);
+              setTimeout(updateCount, 15);
+            } else {
+              counter.innerText = target;
+            }
+          };
+          
+          updateCount();
+          observer.unobserve(counter); // Only animate once
+        }
+      });
+    };
+
+    const counterObserver = new IntersectionObserver(animateCounters, {
+      threshold: 0.5 // Trigger when 50% of element is visible
+    });
+
+    counters.forEach(counter => {
+      counterObserver.observe(counter);
+    });
+
   });
 </script>
